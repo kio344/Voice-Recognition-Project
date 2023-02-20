@@ -27,48 +27,5 @@ public class TestController {
 	@Autowired
 	private UserDao userDao;
 
-//	@GetMapping
-//	public UserDto test(@ ) {
-//		
-//		UserDto user=new UserDto();
-//		
-//		user.setEmail("jmspon33@gmail.com");
-//		user.setMemId("5563a");
-//		user.setMobile("01075175563");
-//		user.setName("정민상");
-//		user.setPwd("123456789");
-//		user.setAddress("address");
-//		user.setReg_dt(LocalDateTime.now());
-//		
-//		userDao.insertUser(user);
-//		
-//		
-//		return user;
-//		
-//		
-//	}
-//	
-	@GetMapping
-	public ResponseEntity<Message> BoardList(boolean err) {
-		Message<String> message = new Message<>();
-
-		HttpHeaders headers = new HttpHeaders();
-
-		// 서비스 메서드 S
-
-		
-		if (err) {
-			throw new ClientError("권한오류!!", HttpStatus.FORBIDDEN);
-
-		}
-
-		message.setStatus(HttpStatus.OK);
-		message.setMessage("성공!!");
-		message.setData("성공적인 데이터!!");
-
-		// 서비스 메서드 E
-
-		return new ResponseEntity<Message>(message, headers, HttpStatus.OK);
-	}
 
 }

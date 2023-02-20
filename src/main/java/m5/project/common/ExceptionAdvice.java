@@ -20,7 +20,8 @@ public class ExceptionAdvice {
 
 		resposneData.setStatus(e.getErrorCode());
 		resposneData.setMessage(e.getMessage());
-
+		resposneData.setData(e.getData());
+		
 		
 		return ResponseEntity
 			.status(resposneData.getStatus())
