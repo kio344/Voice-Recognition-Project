@@ -8,7 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 import m5.project.common.BaseDto;
 
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 public class UserDto extends BaseDto {
 
 	private Integer userId;
@@ -20,8 +22,4 @@ public class UserDto extends BaseDto {
 	private String address;
 	private Integer kakaoId;
 
-	
-	
-	
-	
 }

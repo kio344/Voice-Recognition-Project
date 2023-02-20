@@ -25,6 +25,10 @@
 			VALUES 
 				( #{memId}, #{pwd}, #{name}, #{email}, #{mobile}, #{address});
     </insert>
+    
+    <select id="findByMemId" parameterType="m5.project.models.user.UserDto"  resultType="m5.project.models.user.UserDto" >
+    	SELECT * FROM user where mem_id=#{memId};
+    </select>
 
 
 </mapper>
