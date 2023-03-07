@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class JoinController {
 	}
 
 	@PostMapping("/join")
-	public ResponseEntity<Message<UserDto>> joinPs(@Valid JoinRequest joinRequest,Errors errors) {
+	public ResponseEntity<Message<UserDto>> joinPs(@RequestBody @Valid JoinRequest joinRequest,Errors errors) {
 
 
 		Message<UserDto> responseMessage = new Message<>();

@@ -9,8 +9,8 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public abstract class BaseDto {
 
-	private LocalDateTime reg_dt;
-	private LocalDateTime mod_dt;
+	private LocalDateTime regDt;
+	private LocalDateTime modDt;
 	
 	
 }

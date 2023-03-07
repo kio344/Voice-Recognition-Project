@@ -12,7 +12,7 @@ import m5.project.common.BaseDto;
 @Setter
 @ToString
 public class UserDto extends BaseDto {
-	
+
 	private Integer userId;
 	private String memId;
 	private String pwd;
@@ -21,6 +21,8 @@ public class UserDto extends BaseDto {
 	private String mobile;
 	private String address;
 	private Integer kakaoId;
+	
+	
 	
 	public static UserDto toDto(JoinRequest joinRequest) {
 		
