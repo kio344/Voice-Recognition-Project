@@ -5,7 +5,7 @@
 	
     <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
     <resultMap id="userMap" type="m5.project.models.user.UserDto">
-        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+
         <result property="userId" column="user_id" />
         <result property="memId" column="mem_id" />
         <result property="pwd" column="pwd" />
@@ -26,8 +26,8 @@
 				( #{memId}, #{pwd}, #{name}, #{email}, #{mobile}, #{address});
     </insert>
     
-    <select id="findByMemId" parameterType="m5.project.models.user.UserDto"  resultType="m5.project.models.user.UserDto" >
-    	SELECT * FROM user where mem_id=#{memId};
+    <select id="findByMemId" parameterType="m5.project.models.user.UserDto"  resultMap="userMap" >
+    	SELECT * FROM user u where u.mem_id=#{memId};
     </select>
 
 
