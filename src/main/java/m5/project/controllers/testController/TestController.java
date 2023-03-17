@@ -50,8 +50,9 @@ public class TestController {
 	@PostMapping
 	public Object user(@RequestHeader Map<String, Object> requestHeader) {
 		
-		
+		System.out.println("testcontroller");
 		return projectUtile.getLoginUser(requestHeader);
+		
 		
 	}
 
