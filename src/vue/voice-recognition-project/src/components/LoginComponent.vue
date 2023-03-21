@@ -1,9 +1,9 @@
 <template>
     <div id="loginComponent">
-        <h1 @click="localStorageClear" >
-            Login
+        <h1 @click="localStorageClear">
+            Login<span v-show="joinSc" style="font-size: 14px;margin-left: 10px;color: green;" >회원가입 성공</span>
             <i v-show="loading == 'loading'" class="xi-spinner-3 xi-spin"></i>
-            <i v-show="loading == 'faile'" class="xi-close"></i>
+            <span style="color: red;font-size: 14px;margin-left: 10px;" v-show="loading == 'faile'" >로그인 실패</span>
         </h1>
         <div class="inputGroup">
 
@@ -14,15 +14,23 @@
 
         <div class="btnGroup">
 
-            <el-button @click="test" type="primary">Join</el-button>
+            <el-button @click="()=>{dialogVisible = true;joinSc=false}" type="primary">Join</el-button>
             <el-button @click="loginPs" type="success">Login</el-button>
 
         </div>
+
+        <el-dialog v-model="dialogVisible"  width="30%">
+            
+            <JoinComponent :joinScCallBack="this.joinPopupScClose"  ></JoinComponent>
+
+            
+        </el-dialog>
 
     </div>
 </template>
 
 <script>
+import JoinComponentVue from './JoinComponent.vue'
 
 export default {
 
@@ -33,9 +41,14 @@ export default {
                 pwd: ""
             },
             loginToken: localStorage.getItem("loginToken"),
-            loading: ""
+            loading: "",
+            dialogVisible: false,
+            joinSc:false
 
         }
+    },
+    components: {
+        JoinComponent:JoinComponentVue
     },
 
     props: {
@@ -44,20 +57,28 @@ export default {
          * 로그인 성공 시 콜백
          */
         loginScCallBack: {
-            type:Function            
+            type: Function
         },
         /**
          * 로그인 실패 시 콜백
          */
         loginFaileCallBack: {
-            type:Function
+            type: Function
         }
-        
+
     },
 
 
     methods: {
-        async loginPs() {
+
+
+        joinPopupScClose() {
+            console.log("회원가입 팝업 닫기")
+            this.dialogVisible = false
+            this.joinSc=true
+        }
+
+        ,async loginPs() {
 
             this.loading = 'loading'
 
@@ -69,27 +90,27 @@ export default {
                     console.log(isSuccess)
 
                     state = "sc"
-                    isSc=true
+                    isSc = true
 
                 }).catch(function (isSuccess) {
                     console.log(isSuccess)
 
                     state = "faile"
-                    isSc=false
+                    isSc = false
                 })
 
             this.loading = state
 
             if (isSc) {
-                this.loginScCallBack ? this.loginScCallBack():console.log("로그인 성공 (콜백 x)")
-                
+                this.loginScCallBack ? this.loginScCallBack() : console.log("로그인 성공 (콜백 x)")
+
             } else {
-                this.loginFaileCallBack ? this.loginFaileCallBack():console.log("로그인 실패 (콜백 x)")
-                
-                
+                this.loginFaileCallBack ? this.loginFaileCallBack() : console.log("로그인 실패 (콜백 x)")
+
+
             }
 
-            
+
 
 
         },
@@ -98,14 +119,14 @@ export default {
             this.$store.state.axios()
                 .post(`${this.$store.state.serverIp}/test`)
                 .then(function (resposne) {
-                console.log(resposne)
-            })
+                    console.log(resposne)
+                })
         },
 
         localStorageClear() {
             localStorage.removeItem('loginToken')
             this.$store.state.loginToken = null
-            this.$store.state.loginData=null
+            this.$store.state.loginData = null
             console.log("clear")
         }
     }
