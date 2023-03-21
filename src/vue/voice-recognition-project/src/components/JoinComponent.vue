@@ -1,8 +1,9 @@
 <template>
-    <div id="JoinComponent" :class="{ blur: addressPopup.viewAddressPopup }">
+    <div id="JoinComponent" >
 
         <h1>
             Join
+            <span style="font-size: 13px;color: red;" >{{ this.joinResponse }}</span>
         </h1>
 
         <div class="inputArea ">
@@ -99,7 +100,7 @@
 
 
             <div class="btnGroup">
-                <el-button @click="joinPs" style="width: 100%;" type="primary">회원가입</el-button>
+                <el-button @click="this.joinPs" style="width: 100%;" type="primary">회원가입</el-button>
             </div>
 
         </div>
@@ -108,11 +109,23 @@
 
     </div>
 
-    <div v-show="addressPopup.viewAddressPopup" id="addressPopupArea">
+    <!-- <div v-show="addressPopup.viewAddressPopup" id="addressPopupArea">
 
         <VueDaumPostcode @complete="onComplete" id="addressPopup" :options="options" />
 
-    </div>
+    </div> -->
+
+    <el-dialog v-model="addressPopup.viewAddressPopup" style="height: 80%"    width="30%" :before-close="handleClose">
+        <VueDaumPostcode style="width: 100%;height: 100%;" @complete="onComplete" id="addressPopup" :options="options" />
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="dialogVisible = false">
+                    Confirm
+                </el-button>
+            </span>
+        </template>
+    </el-dialog>
 </template>
 
 <script>
@@ -155,7 +168,8 @@ export default {
                 viewAddressPopup: false,
                 result: ""
 
-            }
+            },
+            joinResponse:""
 
         }
     },
@@ -189,6 +203,8 @@ export default {
         },
         async joinPs() {
             let isSc = false
+            let resopnse = ""
+
             await this.$axios().post(`${this.$store.state.serverIp}/user/join`, this.joinRequest)
                 .then(function (resposne) {
                     console.log(resposne)
@@ -197,15 +213,21 @@ export default {
                 .catch(function (err) {
                     console.log(err)
                     isSc = false
+                    resopnse=err.response.data.message
                 })
+            this.joinResponse=resopnse
 
             if (isSc) {
-                this.joinScCallBack ? this.joinFaileCallBack() : console.log("회원가입 성공(콜백처리 X)")
+                this.joinScCallBack ?  this.joinScCallBack(): console.log("회원가입 성공(콜백처리 X)")
             } else {
-                this.joinFaileCallBack ? this.joinFaileCallBack() : console.log("회원가입 실패(콜백처리 X)")
+                this.joinFaileCallBack ?  this.joinFaileCallBack(): console.log("회원가입 실패(콜백처리 X)")
             }
+            return isSc
         }
     },
+    mounted() {
+        
+    }
 }
 </script>
 
@@ -213,13 +235,15 @@ export default {
 #JoinComponent {
     width: 100%;
     height: 100%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     background-color: white;
     padding: 20px;
     display: flex;
 
     flex-direction: column;
     justify-content: center;
+
+    overflow: hidden;
 
 }
 
@@ -241,7 +265,7 @@ export default {
 
 
 #JoinComponent .inputArea dl dt {
-    width: 150px;
+    min-width: 150px;
     text-align: left;
     padding-left: 20px;
     display: flex;
@@ -262,6 +286,7 @@ export default {
 #JoinComponent .inputArea dl dd {
     padding-left: 20px;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 #addressPopupArea {
