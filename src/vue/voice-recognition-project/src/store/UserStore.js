@@ -33,6 +33,12 @@ const UserStore = {
 
       return isSuccess;
     },
+
+    logout(context) {
+      context.rootState.loginData = null;
+      context.rootState.loginToken = null;
+      localStorage.removeItem("loginToken");
+    },
   },
 };
 

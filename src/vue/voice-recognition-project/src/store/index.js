@@ -11,6 +11,8 @@ export default createStore({
 
     axios() {
       return axios.create({
+        method: "post",
+        url: "http://localhost:8080",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("loginToken"),
