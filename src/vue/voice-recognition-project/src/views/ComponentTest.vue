@@ -3,17 +3,25 @@
 
     <div id="JoinArea">
 
-      <LoginComponent v-if="true"   ></LoginComponent>
+
+      <LoginPopupComponent :loginFaileCallBack="this.loginFaile" :loginScCallBack="this.loginSc"  ></LoginPopupComponent>
+
+      <!-- <LoginComponent v-if="true"   ></LoginComponent> -->
       <!-- <JoinComponent v-if="false"></JoinComponent> -->
 
+
     </div>
+    
+    <button @click="loginTest" >서버 정보 확인</button>
+
+    <button @click="logout" >로그아웃(로그인 정보 삭제)</button>
 
 
   </div>
 </template>
 
 <script>
-import LoginComponent from '@/components/LoginComponent.vue';
+import LoginPopupComponentVue from '@/components/LoginPopupComponent.vue'
 export default {
 
   name: "ComponentTest",
@@ -23,10 +31,39 @@ export default {
     }
   },
   components: {
-    LoginComponent: LoginComponent,
+    LoginPopupComponent:LoginPopupComponentVue
   },
   methods: {
-   
+
+    loginSc() {
+      let loginData = this.$store.state.loginUser
+      let loginToken =this.$store.state.loginToken
+      console.log(loginData.userId)
+      console.log(loginData.memId)
+      console.log(loginData.name)
+      console.log(loginToken)
+    },
+
+    loginFaile() {
+      console.log("faile")
+    },
+
+    loginTest() {
+      console.log("테스트")
+
+      this.$axios().post(`${this.$store.state.serverIp}/test`, this.joinRequest)
+        .then(function (response) {
+          console.log(response)
+        })
+    },
+
+    logout() {
+
+      console.log("로그아웃")
+
+      this.$store.dispatch("UserStore/logout")
+
+    }
 
   }
 

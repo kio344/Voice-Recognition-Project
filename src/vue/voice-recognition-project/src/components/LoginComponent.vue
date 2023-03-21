@@ -101,26 +101,13 @@ export default {
 
             this.loading = state
 
-            if (isSc) {
-                this.loginScCallBack ? this.loginScCallBack() : console.log("로그인 성공 (콜백 x)")
 
-            } else {
-                this.loginFaileCallBack ? this.loginFaileCallBack() : console.log("로그인 실패 (콜백 x)")
-
-
-            }
+            isSc ? (this.loginScCallBack ? this.loginScCallBack() : console.log("로그인 성공 (콜백 x)")) : (this.loginFaileCallBack ? this.loginFaileCallBack() : console.log("로그인 실패 (콜백 x)"))
 
 
 
 
-        },
 
-        test() {
-            this.$store.state.axios()
-                .post(`${this.$store.state.serverIp}/test`)
-                .then(function (resposne) {
-                    console.log(resposne)
-                })
         },
 
         localStorageClear() {
@@ -137,7 +124,7 @@ export default {
 <style scope >
 #loginComponent {
 
-    border: 1px solid rgb(183, 183, 183);
+    /* border: 1px solid rgb(183, 183, 183); */
     border-radius: 4px;
     background-color: white;
     padding: 20px;
